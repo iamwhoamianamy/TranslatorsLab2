@@ -23,8 +23,15 @@ int main()
    while(fin.get(c))
    {
       letter = c;
+
+      if(word == "" || word == " " || word == "\n"|| word == "ъ" || word == "\t")
+      {
+         word = letter;
+         continue;
+      }
+
       // Если текущий символ - пробел или конец строки
-      if(letter == " " || letter == "\n" || letter == "ъ")
+      if(letter == " " || letter == "\n" || letter == "ъ" || letter == "\t")
       {
          int word_kw_i = key_words.GetRowIndex(ConstTableRow(word));
 
@@ -46,6 +53,10 @@ int main()
             }
          }
          word = "";
+
+         if(letter == "\n")
+            fout << endl;
+
          continue;
       }
 
@@ -95,11 +106,11 @@ int main()
                word = letter;
             }
          }
+
          continue;
       }
 
       // Если текущй символ - просто символ
-
       word = word + letter;
    }
 

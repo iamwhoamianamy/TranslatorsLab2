@@ -35,7 +35,7 @@ public:
       if(index == -1)
       {
          table.push_back(t_row);
-         return table.size();
+         return table.size() - 1;
       }
       else
          return index;
