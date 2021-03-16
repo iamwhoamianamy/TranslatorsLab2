@@ -7,18 +7,20 @@ using namespace std;
 
 int main()
 {
-   ConstTable alphbet, key_words, operators;
-   VarTable var_table;
+   ConstTable alphbet, key_words, operators, numbers;
+   VarTable var_table, const_table;
 
    alphbet.FillAplhabet();
    key_words.FillKeyWords();
    operators.FillOperators();
+   numbers.FillNumbers();
 
    ifstream fin("test_2.txt");
    ofstream fout("tokens.txt");
 
    char c;
    string word = "", letter;
+   bool is_word_number = false;
 
    while(fin.get(c))
    {
@@ -26,6 +28,12 @@ int main()
 
       if(word == "" || word == " " || word == "\n"|| word == "ъ" || word == "\t")
       {
+         int letter_numb_i = numbers.GetRowIndex(ConstTableRow(letter));
+
+         // Если текущий символ - число
+         if(letter_numb_i != -1)
+            is_word_number = true;
+
          word = letter;
          continue;
       }
@@ -48,8 +56,18 @@ int main()
             // Eсли предыдущее слово - идентификатор
             else
             {
-               int word_var_i = var_table.AddRow(VarTableRow(0, word, false));
-               fout << "(30," << word_var_i << ")";
+               // Если идентификатор - константа
+               if(is_word_number)
+               {
+                  int word_const_i = const_table.AddRow(VarTableRow(0, word, false));
+                  fout << "(30," << word_const_i << ")";
+                  is_word_number = false;
+               }
+               else
+               {
+                  int word_var_i = var_table.AddRow(VarTableRow(0, word, false));
+                  fout << "(30," << word_var_i << ")";
+               }
             }
          }
          word = "";
@@ -101,9 +119,21 @@ int main()
             // Eсли предыдущее слово - идентификатор
             else
             {
-               int word_var_i = var_table.AddRow(VarTableRow(0, word, false));
-               fout << "(30," << word_var_i << ")";
-               word = letter;
+               // Если идентификатор - константа
+               if(is_word_number)
+               {
+                  int word_const_i = const_table.AddRow(VarTableRow(0, word, false));
+                  fout << "(40," << word_const_i << ")";
+                  word = letter;
+                  is_word_number = false;
+               }
+               // Если идентификатор - имя
+               else
+               {
+                  int word_var_i = var_table.AddRow(VarTableRow(0, word, false));
+                  fout << "(30," << word_var_i << ")";
+                  word = letter;
+               }
             }
          }
 
@@ -111,6 +141,13 @@ int main()
       }
 
       // Если текущй символ - просто символ
+
+      int letter_numb_i = numbers.GetRowIndex(ConstTableRow(letter));
+
+      // Если текущий символ - число
+      if(letter_numb_i != -1)
+         is_word_number = true;
+
       word = word + letter;
    }
 

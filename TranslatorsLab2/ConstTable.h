@@ -41,7 +41,7 @@ public:
    void FillAplhabet()
    {
       const int k = 14;
-      table.resize(k + 26 + 26 + 10);
+      table.resize(k + 26 + 26);
       string operators[k] = { "=", "+", "-", "*", "=", "!", "<", "(", ")", "{", "}", ",", ";", "_" };
       for(size_t i = 0; i < k; i++)
          table[i] = ConstTableRow(operators[i]);
@@ -52,9 +52,16 @@ public:
       for(int i = 0; i < 26; i++)
          table[i + k + 26] = ConstTableRow(string(1, (char)('A' + i)));
 
-      for(int i = 0; i < 10; i++)
-         table[i + k + 26 + 26] = ConstTableRow(string(1, (char)('0' + i)));
+    }
 
+
+   // Создание таблицы со всеми символами алфавита языка
+   void FillNumbers()
+   {
+      table.resize(10);
+
+      for(int i = 0; i < 10; i++)
+         table[i] = ConstTableRow(string(1, (char)('0' + i)));
    }
 
    // Функция поиска номера строки таблицы по идентификатору,
