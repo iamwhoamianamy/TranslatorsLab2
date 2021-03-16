@@ -153,4 +153,11 @@ int main()
 
    fout.close();
    fin.close();
+
+   alphbet.Output("aplhabet.txt");
+   key_words.Output("keyWords.txt");
+   operators.Output("operators.txt");
+   numbers.Output("numbers.txt");
+   var_table.Output("var.txt");
+   const_table.Output("const.txt");
 }

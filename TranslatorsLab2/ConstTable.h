@@ -2,6 +2,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <iomanip>
 #include "ConstTableRow.h"
 
 using namespace std;
@@ -73,5 +74,18 @@ public:
             return i;
 
       return -1;
+   }
+
+   void Output(const string& OUT_FILE)
+   {
+      ofstream fout(OUT_FILE);
+      fout << "i    name" << endl;
+      for (size_t i = 0; i < table.size(); i++)
+      {
+         fout << setw(2) << i;
+         fout << setw(10) << table[i].name;
+         fout << endl;
+      }
+      fout.close();
    }
 };

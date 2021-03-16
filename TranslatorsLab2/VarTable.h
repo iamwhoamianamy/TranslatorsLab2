@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <iomanip>
 #include "VarTableRow.h"
 
 using namespace std;
@@ -48,6 +49,20 @@ public:
          return table[t_index];
       else
          printf_s("Error!");
+   }
+
+   void Output(const string& OUT_FILE)
+   {
+      ofstream fout(OUT_FILE);
+      fout << "i   value   name  is set" << endl;
+      for (size_t i = 0; i < table.size(); i++)
+      {
+         fout << i << setw(5) << table[i].value;
+         fout << setw(8) << table[i].name;
+         fout << setw(5) << table[i].is_set;
+         fout << endl;
+      }
+      fout.close();
    }
 
    // Получение значений атрибутов
