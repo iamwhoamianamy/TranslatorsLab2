@@ -31,9 +31,9 @@ public:
    // Создание таблицы с операторами
    void FillOperators()
    {
-      const int k = 13;
+      const int k = 15;
       table.resize(k);
-      string operators[k] = { "=", "+", "-", "*", "==", "!=", "<", "(", ")", "{", "}", ",", ";" };
+      string operators[k] = { "=", "+", "-", "*", "==", "!=", "<", "(", ")", "{", "}", ",", ";", "/*", "*\\"};
       for(size_t i = 0; i < k; i++)
          table[i] = ConstTableRow(operators[i]);
    }
@@ -42,7 +42,7 @@ public:
    void FillAplhabet()
    {
       const int k = 14;
-      table.resize(k + 26 + 26);
+      table.resize(k + 26 + 26 + 10);
       string operators[k] = { "=", "+", "-", "*", "=", "!", "<", "(", ")", "{", "}", ",", ";", "_" };
       for(size_t i = 0; i < k; i++)
          table[i] = ConstTableRow(operators[i]);
@@ -53,8 +53,22 @@ public:
       for(int i = 0; i < 26; i++)
          table[i + k + 26] = ConstTableRow(string(1, (char)('A' + i)));
 
-    }
+      for (int i = 0; i < 10; i++)
+         table[i + k + 26 + 26] = ConstTableRow(string(1, (char)('0' + i)));
+   }
 
+   void FillIdentName()
+   {
+      table.resize(1 + 26 + 26);
+
+      for (int i = 0; i < 26; i++)
+         table[i] = ConstTableRow(string(1, (char)('a' + i)));
+
+      for (int i = 0; i < 26; i++)
+         table[i + 26] = ConstTableRow(string(1, (char)('A' + i)));
+
+      table[52] = ConstTableRow(string(1, (char)('_')));
+   }
 
    // Создание таблицы со всеми символами алфавита языка
    void FillNumbers()
