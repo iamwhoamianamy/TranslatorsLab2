@@ -2,178 +2,152 @@
 #include <fstream>
 #include "ConstTable.h"
 #include "VarTable.h"
+#include "LexicalAnalyzer.h"
 
 using namespace std;
 
 int main()
 {
-   ConstTable alphabet, key_words, operators, numbers, ident_name;
-   VarTable var_table, const_table;
+   LexicalAnalyzer la = LexicalAnalyzer();
 
-   alphabet.FillAplhabet();
-   key_words.FillKeyWords();
-   operators.FillOperators();
-   numbers.FillNumbers();
-   ident_name.FillIdentName();
+   la.MakeTokens("test_2.txt", "tokens.txt");
+   la.PrintAllTables("tables");
 
-   ifstream fin("test_2.txt");
-   ofstream fout("tokens.txt");
+      //symbol_n++;
 
-   int symbol_n = 0, line_n = 1;
-   char c;
-   string word = "", symbol;
-   bool is_word_number = false;
+      //int symbol_alph_i = alphabet.GetRowIndex(ConstTableRow(symbol));
 
-   while(fin.get(c))
-   {
-      symbol = c;
-      symbol_n++;
+      //if (symbol_alph_i == -1 && symbol != " " && symbol != "\n" && symbol != "\t")
+      //{
+      //   cout << "Error in " << line_n << " line, " << symbol_n << " symbol!" << endl;
+      //   exit(2);
+      //}
 
-      int symbol_alph_i = alphabet.GetRowIndex(ConstTableRow(symbol));
+      //if(word == "" || word == " " || word == "\n" || word == "\t")
+      //{
+      //   int symbol_numb_i = numbers.GetRowIndex(ConstTableRow(symbol));
 
-      if (symbol_alph_i == -1 && symbol != " " && symbol != "\n" && symbol != "\t")
-      {
-         cout << "Error in " << line_n << " line, " << symbol_n << " symbol!" << endl;
-         exit(2);
-      }
+      //   // Если текущий символ - число
+      //   if(symbol_numb_i != -1)
+      //      is_word_number = true;
 
-      if(word == "" || word == " " || word == "\n" || word == "\t")
-      {
-         int symbol_numb_i = numbers.GetRowIndex(ConstTableRow(symbol));
+      //   word = symbol;
+      //   continue;
+      //}
 
-         // Если текущий символ - число
-         if(symbol_numb_i != -1)
-            is_word_number = true;
+      //// Если текущий символ - пробел или конец строки
+      //if(symbol == " " || symbol == "\n" || symbol == "\t")
+      //{
+      //   int word_kw_i = key_words.GetRowIndex(ConstTableRow(word));
 
-         word = symbol;
-         continue;
-      }
+      //   // Если предыдущее слово - ключевое
+      //   if(word_kw_i != -1)
+      //      fout << "(10," << word_kw_i << ")";
+      //   else
+      //   {
+      //      int word_op_i = operators.GetRowIndex(ConstTableRow(word));
 
-      // Если текущий символ - пробел или конец строки
-      if(symbol == " " || symbol == "\n" || symbol == "\t")
-      {
-         int word_kw_i = key_words.GetRowIndex(ConstTableRow(word));
+      //      // Если предыдущее слово - оператор
+      //      if(word_op_i != -1)
+      //         fout << "(20," << word_op_i << ")";
+      //      // Eсли предыдущее слово - идентификатор
+      //      else
+      //      {
+      //         // Если идентификатор - константа
+      //         if(is_word_number)
+      //         {
+      //            int word_const_i = const_table.AddRow(VarTableRow(0, word, false));
+      //            fout << "(30," << word_const_i << ")";
+      //            is_word_number = false;
+      //         }
+      //         else
+      //         {
+      //            int word_var_i = var_table.AddRow(VarTableRow(0, word, false));
+      //            fout << "(30," << word_var_i << ")";
+      //         }
+      //      }
+      //   }
+      //   word = "";
 
-         // Если предыдущее слово - ключевое
-         if(word_kw_i != -1)
-            fout << "(10," << word_kw_i << ")";
-         else
-         {
-            int word_op_i = operators.GetRowIndex(ConstTableRow(word));
+      //   if(symbol == "\n")
+      //   {
+      //      line_n++;
+      //      symbol_n = 0;
+      //      fout << endl;
+      //   }
 
-            // Если предыдущее слово - оператор
-            if(word_op_i != -1)
-               fout << "(20," << word_op_i << ")";
-            // Eсли предыдущее слово - идентификатор
-            else
-            {
-               // Если идентификатор - константа
-               if(is_word_number)
-               {
-                  int word_const_i = const_table.AddRow(VarTableRow(0, word, false));
-                  fout << "(30," << word_const_i << ")";
-                  is_word_number = false;
-               }
-               else
-               {
-                  int word_var_i = var_table.AddRow(VarTableRow(0, word, false));
-                  fout << "(30," << word_var_i << ")";
-               }
-            }
-         }
-         word = "";
+      //   continue;
+      //}
 
-         if(symbol == "\n")
-         {
-            line_n++;
-            symbol_n = 0;
-            fout << endl;
-         }
+      //int symbol_op_i = operators.GetRowIndex(ConstTableRow(symbol));
 
-         continue;
-      }
+      //// Если текущий символ - оператор
+      //if(symbol_op_i != -1)
+      //{
+      //   int word_kw_i = key_words.GetRowIndex(ConstTableRow(word));
 
-      int symbol_op_i = operators.GetRowIndex(ConstTableRow(symbol));
+      //   // Если предыдущее слово - ключевое
+      //   if(word_kw_i != -1)
+      //   {
+      //      fout << "(10," << word_kw_i << ")";
+      //      word = symbol;
+      //   }
+      //   else
+      //   {
+      //      int word_op_i = operators.GetRowIndex(ConstTableRow(word));
 
-      // Если текущий символ - оператор
-      if(symbol_op_i != -1)
-      {
-         int word_kw_i = key_words.GetRowIndex(ConstTableRow(word));
+      //      // Если предыдущее слово - оператор
+      //      if(word_op_i != -1)
+      //      {
+      //         if(symbol == "=")
+      //         {
+      //            if(word == "!")
+      //               word = "!=";
+      //            else if(word == "=")
+      //               word = "==";
+      //            else
+      //            {
+      //               fout << "(20," << word_op_i << ")";
+      //               word = symbol;
+      //            }
+      //         }
+      //         else
+      //         {
+      //            fout << "(20," << word_op_i << ")";
+      //            word = symbol;
+      //         }
+      //      }
+      //      // Eсли предыдущее слово - идентификатор
+      //      else
+      //      {
+      //         // Если идентификатор - константа
+      //         if(is_word_number)
+      //         {
+      //            int word_const_i = const_table.AddRow(VarTableRow(0, word, false));
+      //            fout << "(40," << word_const_i << ")";
+      //            word = symbol;
+      //            is_word_number = false;
+      //         }
+      //         // Если идентификатор - имя
+      //         else
+      //         {
+      //            int word_var_i = var_table.AddRow(VarTableRow(0, word, false));
+      //            fout << "(30," << word_var_i << ")";
+      //            word = symbol;
+      //         }
+      //      }
+      //   }
 
-         // Если предыдущее слово - ключевое
-         if(word_kw_i != -1)
-         {
-            fout << "(10," << word_kw_i << ")";
-            word = symbol;
-         }
-         else
-         {
-            int word_op_i = operators.GetRowIndex(ConstTableRow(word));
+      //   continue;
+      //}
 
-            // Если предыдущее слово - оператор
-            if(word_op_i != -1)
-            {
-               if(symbol == "=")
-               {
-                  if(word == "!")
-                     word = "!=";
-                  else if(word == "=")
-                     word = "==";
-                  else
-                  {
-                     fout << "(20," << word_op_i << ")";
-                     word = symbol;
-                  }
-               }
-               else
-               {
-                  fout << "(20," << word_op_i << ")";
-                  word = symbol;
-               }
-            }
-            // Eсли предыдущее слово - идентификатор
-            else
-            {
-               // Если идентификатор - константа
-               if(is_word_number)
-               {
-                  int word_const_i = const_table.AddRow(VarTableRow(0, word, false));
-                  fout << "(40," << word_const_i << ")";
-                  word = symbol;
-                  is_word_number = false;
-               }
-               // Если идентификатор - имя
-               else
-               {
-                  int word_var_i = var_table.AddRow(VarTableRow(0, word, false));
-                  fout << "(30," << word_var_i << ")";
-                  word = symbol;
-               }
-            }
-         }
+      //// Если текущй символ - просто символ
 
-         continue;
-      }
+      //int symbol_numb_i = numbers.GetRowIndex(ConstTableRow(symbol));
 
-      // Если текущй символ - просто символ
+      //// Если текущий символ - число
+      //if(symbol_numb_i != -1)
+      //   is_word_number = true;
 
-      int symbol_numb_i = numbers.GetRowIndex(ConstTableRow(symbol));
-
-      // Если текущий символ - число
-      if(symbol_numb_i != -1)
-         is_word_number = true;
-
-      word = word + symbol;
-   }
-
-   fout.close();
-   fin.close();
-
-   alphabet.Output("aplhabet.txt");
-   key_words.Output("keyWords.txt");
-   operators.Output("operators.txt");
-   numbers.Output("numbers.txt");
-   var_table.Output("var.txt");
-   const_table.Output("const.txt");
-   ident_name.Output("ident_name.txt");
+      //word = word + symbol;
 }
