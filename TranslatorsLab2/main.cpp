@@ -1,10 +1,4 @@
-﻿#include <iostream>
-#include <fstream>
-#include "ConstTable.h"
-#include "VarTable.h"
-#include "LexicalAnalyzer.h"
-
-using namespace std;
+﻿#include "LexicalAnalyzer.h"
 
 int main()
 {

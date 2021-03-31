@@ -81,8 +81,8 @@ public:
 
    void MakeTokens(const string& in_filename, const string& out_filename)
    {
-      ifstream fin("test_2.txt");
-      ofstream fout("tokens.txt");
+      ifstream fin(in_filename);
+      ofstream fout(out_filename);
 
       int symbol_n = 0, line_n = 1;
       char c;
@@ -97,7 +97,7 @@ public:
       // Место символа в соответствующей таблице
       int place = 0;
 
-      // Место символа в соответствующей таблице
+      // Место предыдущего символа в соответствующей таблице
       int prev_place = 0;
 
       // Если комментирование оператором */
@@ -116,6 +116,7 @@ public:
          if(symbol_type == SymbolType::Error)
          {
             cout << "Error at line " << line_n << " pos " << symbol_n;
+            cout << ": Invalid symbol! ";
             exit(2);
          }
 
@@ -222,12 +223,20 @@ public:
                            word_type = WordType::Blank;
                            word = "";
                         }
-                        else
+                        else if(temp_op == "()")
                         {
+
                            fout << "(20," << prev_place << ")";
                            word_type = WordType::Operator;
                            word = symbol;
                            prev_place = place;
+                        }
+                        else
+                        {
+                           cout << "Error at line " << line_n << " pos " << symbol_n;
+                           cout << ": Invalid operator! ";
+                           exit(2);
+                           break;
                         }
                         break;
                      }
@@ -341,6 +350,7 @@ public:
                      case SymbolType::Letter:
                      {
                         cout << "Error at line " << line_n << " pos " << symbol_n;
+                        cout << ": Invalid constant (identifier)! ";
                         exit(2);
                         break;
                      }

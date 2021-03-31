@@ -31,9 +31,9 @@ public:
    // Создание таблицы с операторами
    void FillOperators()
    {
-      const int k = 16;
+      const int k = 14;
       table.resize(k);
-      string operators[k] = { "=", "+", "-", "*" , "/", "==", "!=", "<", "(", ")", "{", "}", ",", ";", "/*", "*/"};
+      string operators[k] = { "=", "+", "-", "*" , "/", "==", "!=", "<", "(", ")", "{", "}", ",", ";"};
       for(size_t i = 0; i < k; i++)
          table[i] = ConstTableRow(operators[i]);
    }
