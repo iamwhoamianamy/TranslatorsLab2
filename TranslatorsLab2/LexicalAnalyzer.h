@@ -10,8 +10,7 @@ enum class WordType
    Blank,
    Operator,
    Word,
-   Constant,
-   KeyWord
+   Constant
 };
 
 enum class SymbolType

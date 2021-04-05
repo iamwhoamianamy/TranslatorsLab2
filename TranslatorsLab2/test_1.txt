@@ -1,4 +1,4 @@
 int main()
 {
-   int 23a = 10;
+   int 1 a + = 10;
 }

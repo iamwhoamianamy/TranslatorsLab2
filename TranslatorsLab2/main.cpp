@@ -4,7 +4,7 @@ int main()
 {
    LexicalAnalyzer la = LexicalAnalyzer();
 
-   la.MakeTokens("test_2.txt", "tokens.txt");
+   la.MakeTokens("test_1.txt", "tokens.txt");
    la.PrintAllTables("tables");
 
       //symbol_n++;
